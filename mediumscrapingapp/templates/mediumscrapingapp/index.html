@@ -24,7 +24,7 @@
 
           {% if posts %}
             {% for key, value in posts.items %}
-              <a href={{key}} target="_blank">
+              <a href="{% url 'mediumscrapingapp:details' post=key %}" target="_blank">
                   <div>
                       {{forloop.counter}} {{', '}}
                       {{ value.title }} {{', '}}

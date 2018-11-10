@@ -6,6 +6,8 @@ from collections import OrderedDict
 import json
 
 
+top_posts_details = OrderedDict()
+
 
 def get_top_links(tag):
     post_links = OrderedDict()
@@ -16,7 +18,7 @@ def get_top_links(tag):
     i = 0
     for div in container:
         anchor_tag = div.find('a', class_='link link--darken')
-        post_link = anchor_tag.get('data-action-value')
+        post_link = (anchor_tag.get('data-action-value')).split('?source')[0]
         post_author = (div.find('a', class_='ds-link ds-link--styleSubtle link link--darken link--accent u-accentColor--textNormal u-accentColor--textDarken')).text
         read = (div.find('span', class_='readingTime')).get('title')
         details = div.find('time').text +', ' + str(read)
@@ -58,6 +60,7 @@ def get_all_post_details(top_posts_links):
 
 
 def home(request):
+    global top_posts_details
     template_name = 'mediumscrapingapp/index.html'
     if request.method == 'GET':
         all_post = ''
@@ -67,3 +70,12 @@ def home(request):
             top_posts_details = get_all_post_details(top_posts_links)
             return render(request, template_name, {'posts' : top_posts_details})
     return render(request, template_name)
+
+
+
+def details(request, post):
+    global top_posts_details
+    template_name = 'mediumscrapingapp/details.html'
+    source_url = (request.get_full_path()).split('details/')[1]
+    post = top_posts_details.get(source_url, None)
+    return render(request, template_name, {'post': post, 'source_url': source_url})
