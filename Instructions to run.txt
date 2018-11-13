@@ -1,0 +1,4 @@
+1- install all dependencies from requirements.txt
+2- go to folder "Scraping"
+3- run "python manage.py runserver"
+4- replace url with "http://127.0.0.1:8000/home".
