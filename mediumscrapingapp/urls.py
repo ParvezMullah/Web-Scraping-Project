@@ -15,11 +15,12 @@ Including another URLconf
 """
 from django.urls import path
 from django.conf.urls import url, re_path
-from mediumscrapingapp.views import home, details
+from mediumscrapingapp.views import home, details, Home
 
 app_name = 'mediumscrapingapp'
 urlpatterns = [
-    path('home', home, name='home'),
+    path('', home, name='home'),
+    path('get-posts', Home.as_view(), name = 'get-posts'),
     re_path('details/(?P<post>http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+] |[!*\(\), ]|(?:%[0-9a-fA-F][0-9a-fA-F]))+)', details, name='details' ),
     #re_path('details/(?P<post>http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+] |[!*\(\), ]|(?:%[0-9a-fA-F][0-9a-fA-F]))+)', details, name='details' ),
 ]
