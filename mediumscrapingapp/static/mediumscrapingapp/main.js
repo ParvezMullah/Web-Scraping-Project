@@ -43,6 +43,8 @@ function scrape_post(i) {
 }
 
 function initial_load() {
+    var t0 = performance.now();
+    document.getElementById('timetaken').innerHTML = ""
     var pending = "pending....";
     var crawling = "Crawling....";
     var i = 0;
@@ -64,6 +66,9 @@ function initial_load() {
      else{
         btn.setAttribute("style","display:block;");
      }
+
+     var t1 = performance.now();
+     document.getElementById('timetaken').innerHTML = "Total load time is " + ((t1 - t0)/ 1000).toString() + "Seconds" ;
 };
 
 

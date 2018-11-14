@@ -45,8 +45,14 @@ def get_top_links(tag, post_number):
     nonBreakSpace = u'\xa0'
     if post_title is None:
         post_title = div.find('h3', class_="graf graf--h3 graf--leading graf--title")
+
     post_title = (post_title.text).replace(nonBreakSpace, ' ')
-    post_author = (div.find('a', class_='ds-link ds-link--styleSubtle link link--darken link--accent u-accentColor--textNormal u-accentColor--textDarken')).text
+    print(post_title + str(post_number))
+    post_author = div.find('a', class_='ds-link ds-link--styleSubtle link link--darken link--accent u-accentColor--textNormal u-accentColor--textDarken')
+    if post_author is not None:
+        post_author = (post_author).text
+    else:
+        post_author = "Author"
     post_read = (div.find('span', class_='readingTime')).get('title')
     post_details = div.find('time').text +', ' + str(post_read)
     top_posts['post_link'] = post_link
