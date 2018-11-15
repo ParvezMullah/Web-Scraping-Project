@@ -13,6 +13,7 @@ import requests
 from collections import OrderedDict
 import json
 import time
+import os
 
 container = None
 size = 0
@@ -22,12 +23,11 @@ def get_top_links(tag, post_number):
     global size
     top_posts = {}
 
-    print(post_number, size)
     if size == 0:
         url = 'https://medium.com/tag/' + tag
         source = requests.get(url).text
-        driver = webdriver.PhantomJS('C:\\Users\\parvez\\Desktop\\Scraping Project\\mediumscrapingapp\\phantomjs')
-        # Load Twitter page and click to view all results
+        full_path_of_phantomjs = str(os.getcwd()) + "\\mediumscrapingapp\\phantomjs"
+        driver = webdriver.PhantomJS(full_path_of_phantomjs)
         driver.get(url)
         driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
         SCROLL_PAUSE_TIME = 6
@@ -37,7 +37,7 @@ def get_top_links(tag, post_number):
         soup = BeautifulSoup(driver.page_source, 'html5lib')
         container = soup.findAll('div', class_ ='streamItem streamItem--postPreview js-streamItem')
         size = len(container)
-        print(str(size) + "html is calculated")
+        # print(str(size) + "html is calculated")
 
     try:
         div = container[post_number]
@@ -86,14 +86,14 @@ def get_post_details(url):
     post_detail_view['title'] = ' '.join(post_title)  
     post_detail_view['source_url'] = source  
     
-    driver = webdriver.PhantomJS('C:\\Users\\parvez\\Desktop\\Scraping Project\\mediumscrapingapp\\phantomjs')
+    full_path_of_phantomjs = str(os.getcwd()) + "\\mediumscrapingapp\\phantomjs"
+    driver = webdriver.PhantomJS(full_path_of_phantomjs)
     driver.get(url)
     driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
     soup = BeautifulSoup(driver.page_source, 'html5lib')
 
     post_detail_view['details'] = soup.find('span',attrs={'class':'readingTime'})['title']
     post_detail_view['blog'] = (soup.find('div', class_='section-content')).text
-    print(post_detail_view['blog'])
     #post_detail_view['title'] = (soup.find('h1', class_='graf graf--h3 graf--leading graf--title')).text
     # (soup.find('h1')).decompose()
     tags = soup.findAll('a', class_='link u-baseColor--link')
