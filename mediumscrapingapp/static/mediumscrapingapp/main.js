@@ -9,7 +9,7 @@ function scrape_post(i) {
         url : "get-posts", // the endpoint
         type : "GET", // http method
         data : { txtSearch : $('#txtSearch').val(), post_number: i}, // data sent with the post request
-        contentType: "application/json",
+        // contentType: "application/json",
         async:false,
         // handle a successful response
         
@@ -68,7 +68,7 @@ function initial_load() {
      }
 
      var t1 = performance.now();
-     document.getElementById('timetaken').innerHTML = "Total load time is " + ((t1 - t0)/ 1000).toString() + "Seconds" ;
+     document.getElementById('timetaken').innerHTML = "Total load time is " + (Math.round((t1 - t0)/ 1000)).toString() + " Seconds" ;
 };
 
 
