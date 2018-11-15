@@ -26,8 +26,8 @@ def get_top_links(tag, post_number):
     if size == 0:
         url = 'https://medium.com/tag/' + tag
         source = requests.get(url).text
-        full_path_of_phantomjs = str(os.getcwd()) + "/mediumscrapingapp/phantomjs"
-        driver = webdriver.PhantomJS(full_path_of_phantomjs)
+        #full_path_of_phantomjs = str(os.getcwd()) + "/phantomjs"
+        driver = webdriver.PhantomJS()
         driver.get(url)
         driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
         SCROLL_PAUSE_TIME = 6
