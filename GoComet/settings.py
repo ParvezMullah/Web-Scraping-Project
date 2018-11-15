@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'mediumscrapingapp',
+    'crispy_forms',
 ]
 
 REST_FRAMEWORK = {
@@ -108,6 +109,10 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'mediumscrapingapp'
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 
 # Internationalization

@@ -17,6 +17,7 @@ from django.urls import path
 from django.conf.urls import url, re_path
 from mediumscrapingapp.views import home, details, Home
 
+
 app_name = 'mediumscrapingapp'
 urlpatterns = [
     path('', home, name='home'),
