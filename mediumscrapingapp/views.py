@@ -86,8 +86,7 @@ def get_post_details(url):
     post_detail_view['title'] = ' '.join(post_title)  
     post_detail_view['source_url'] = source  
     
-    full_path_of_phantomjs = str(os.getcwd()) + "\\mediumscrapingapp\\phantomjs"
-    driver = webdriver.PhantomJS(full_path_of_phantomjs)
+    driver = webdriver.PhantomJS()
     driver.get(url)
     driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
     soup = BeautifulSoup(driver.page_source, 'html5lib')
