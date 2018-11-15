@@ -74,7 +74,7 @@ function initial_load() {
 
 
 function RedirectFunct(tag){
-    window.open("http://127.0.0.1:8000/?tag="+tag);
+    window.open("https://gocomet.herokuapp.com/?tag="+tag);
 }
 
 window.onload=function(){
