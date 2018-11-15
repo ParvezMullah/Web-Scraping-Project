@@ -12,24 +12,32 @@ from bs4 import BeautifulSoup
 import requests 
 from collections import OrderedDict
 import json
+import time
 
 container = None
-
+size = 0
 
 def get_top_links(tag, post_number):
     global container
-    size = 0
+    global size
     top_posts = {}
 
-    if container is None or post_number == 0:
+    print(post_number, size)
+    if size == 0:
         url = 'https://medium.com/tag/' + tag
         source = requests.get(url).text
         driver = webdriver.PhantomJS('C:\\Users\\parvez\\Desktop\\Scraping Project\\mediumscrapingapp\\phantomjs')
         # Load Twitter page and click to view all results
         driver.get(url)
+        driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        SCROLL_PAUSE_TIME = 6
+        time.sleep(SCROLL_PAUSE_TIME)
+        driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        time.sleep(SCROLL_PAUSE_TIME)
         soup = BeautifulSoup(driver.page_source, 'html5lib')
         container = soup.findAll('div', class_ ='streamItem streamItem--postPreview js-streamItem')
         size = len(container)
+        print(str(size) + "html is calculated")
 
     try:
         div = container[post_number]
@@ -49,7 +57,6 @@ def get_top_links(tag, post_number):
         post_title = div.find('h3', class_="graf graf--h3 graf--leading graf--title")
 
     post_title = (post_title.text).replace(nonBreakSpace, ' ')
-    print(post_title + str(post_number))
     post_author = div.find('a', class_='ds-link ds-link--styleSubtle link link--darken link--accent u-accentColor--textNormal u-accentColor--textDarken')
     if post_author is not None:
         post_author = (post_author).text
@@ -62,8 +69,10 @@ def get_top_links(tag, post_number):
     top_posts['post_author'] = post_author
     top_posts['post_details'] = post_details
 
-    if post_number == 9 or post_number == size - 1:
-        container = []
+    if post_number == 9:
+        container = container[10:]
+        size -= 10
+
     return top_posts
 
 
@@ -83,7 +92,7 @@ def get_post_details(url):
     soup = BeautifulSoup(driver.page_source, 'html5lib')
 
     post_detail_view['details'] = soup.find('span',attrs={'class':'readingTime'})['title']
-    post_detail_view['blog'] = soup.find('div', class_='section-content')
+    post_detail_view['blog'] = (soup.find('div', class_='section-content')).text
     print(post_detail_view['blog'])
     #post_detail_view['title'] = (soup.find('h1', class_='graf graf--h3 graf--leading graf--title')).text
     # (soup.find('h1')).decompose()
