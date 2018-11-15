@@ -1,1 +1,1 @@
-web: gunicorn BankApi.wsgi
+web: gunicorn GoComet.wsgi
